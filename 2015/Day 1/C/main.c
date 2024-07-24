@@ -8,9 +8,18 @@ int final_floor(char *filecon);
 int basement(char *filecon);
 
 int main(void) { 
-    FILE *fptr = fopen("input.txt", "r"); 
+    FILE *fptr = fopen("input.txt", "r");
+    if (fptr == NULL) {
+        perror("Error opening file");
+        return 1;
+    }
+    
     char *contents = file_read(fptr);
-
+    
+    if (fclose(fptr) == EOF) {
+        perror("Error closing file");
+        return 1;
+    }
     int floor_ans = final_floor(contents);
     int basement_ans = basement(contents);
     printf("Final floor: %d\nBasement: %d", floor_ans, basement_ans);
