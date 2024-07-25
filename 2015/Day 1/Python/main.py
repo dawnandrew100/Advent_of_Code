@@ -3,7 +3,7 @@ def main():
     input = file.read()
 
   basement, floor = floor_finder(input)
-  print(f"Basement: {basement[0]}\nFinal floor: {floor}")
+  print(f"Final floor: {floor}\nFirst basement position: {basement[0]}")
 
 def floor_finder(contents):
   floor = 0
