@@ -2,12 +2,12 @@
 #define FILEIO_H
 
 #define MAX_DATA_SIZE 10000
-#define buffer_size 100
+#define BUFFER_SIZE 100
 
 int file_read(FILE* fileptr, char *contents){
     char data[MAX_DATA_SIZE]; 
-    char buffer[buffer_size];
-    char x[buffer_size];
+    char buffer[BUFFER_SIZE];
+    char x[BUFFER_SIZE];
     int rc;
     int pos;
 
