@@ -2,6 +2,7 @@
 #define FILEIO_H
 
 #define MAX_DATA_SIZE 10000
+#define BUFFER_SIZE 10
 
 int file_read(FILE* fileptr, char *contents);
 int open_file(char *file_name, char *contents);
@@ -11,14 +12,14 @@ int second_smallest(int *int_array, int array_size);
 
 int file_read(FILE* fileptr, char *contents){
     char data[MAX_DATA_SIZE]; 
-    char buffer[10];
-    char x[10];
+    char buffer[BUFFER_SIZE];
+    char x[BUFFER_SIZE];
     int rc;
     int pos;
     
-    // read data in 100 character chunks
+    // read data in 10 character chunks
     while (fgets(buffer, sizeof(buffer), fileptr) != NULL) {
-        if ((rc = sscanf (buffer, "%10s %n", &x, &pos)) != 1) {
+        if ((rc = sscanf (buffer, "%s %n", &x, &pos)) != 1) {
             perror("EOF or format error");
             return 1;
         } else if (buffer[pos] != '\0') {
