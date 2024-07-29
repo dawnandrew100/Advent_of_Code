@@ -1,60 +1,43 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#ifndef FILEIO_H
+#define FILEIO_H
+
 #define MAX_DATA_SIZE 10000
+#define buffer_size 100
 
-char *file_read(FILE* fileptr){
-  char *filecon = (char*)malloc(MAX_DATA_SIZE*sizeof(char));
-  char data[MAX_DATA_SIZE]; 
-  char buffer[100]; 
+int file_read(FILE* fileptr, char *contents){
+    char data[MAX_DATA_SIZE]; 
+    char buffer[buffer_size];
+    char x[buffer_size];
+    int rc;
+    int pos;
 
-  // read data in 100 character chunks
-  while (fgets(buffer, sizeof(buffer), fileptr)) { 
-      strncat(data, buffer, strlen(buffer));
-  } 
-  filecon = data;
-  return filecon;
+    // read data in 100 character chunks
+    while (fgets(buffer, sizeof(buffer), fileptr) != NULL) {
+        if ((rc = sscanf (buffer, "%s %n", &x, &pos)) != 1) {
+            perror("EOF or format error");
+            return 1;
+        } else if (buffer[pos] != '\0') {
+            perror("Traling non-whitespace character");
+            return 1;
+        } else {
+            strncat(data, buffer, strlen(buffer));
+        }  
+    } 
+    strncpy(contents, data, MAX_DATA_SIZE);
+    return 0;
 }
+int open_file(char *file_name, char *contents){
+    FILE *fptr = fopen(file_name, "r");
+    if (fptr) {
+        int success = file_read(fptr, contents);
 
-char *open_file(char *file_name){
-  FILE *fptr = fopen(file_name, "r");
-  if (fptr == NULL) {
-      perror("Error opening file");
-      return NULL;
-  }
-  char *contents = file_read(fptr);
-  if (fclose(fptr) == EOF) {
-      perror("Error closing file");
-      return NULL;
-  }
-  return contents;
+        if (fclose(fptr) == EOF) {
+            perror("Error closing file");
+            success = 1;
+        }
+        return success;
+    }
+    perror("Error opening file");
+    return 1;
 }
-
-int final_floor(char *filecon) {
-  int i;
-  int floor_num = 0;
-  for(i=0; i<strlen(filecon); i++) {
-      if (filecon[i] == '(') {
-          floor_num++;
-      } else if (filecon[i] == ')') {
-          floor_num--;
-      }
-  }
-  return floor_num;
-}
-
-int basement(char *filecon) {
-  int i;
-  int floor_num = 0;
-  for(i=0; i<strlen(filecon); i++) {
-      if (filecon[i] == '(') {
-          floor_num++;
-      } else if (filecon[i] == ')') {
-          floor_num--;
-      }
-      if (floor_num == -1) {
-          return i+1;
-      }
-  }
-  return -1;
-}
+#endif
