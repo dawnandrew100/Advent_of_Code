@@ -5,7 +5,7 @@ def main():
   basement, floor = floor_finder(input)
   print(f"Final floor: {floor}\nFirst basement position: {basement[0]}")
 
-def floor_finder(contents):
+def floor_finder(contents: str) -> tuple[int, int]:
   floor = 0
   position = 0
   basement = []
