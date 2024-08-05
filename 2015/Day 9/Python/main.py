@@ -1,44 +1,34 @@
-from collections import defaultdict
+from itertools import permutations
+
 def main():
-  with open("input.txt", "r") as file:
-    contents = file.read().split("\n")
-  routes = {}
-  sorted_routes = {}
-  for content in contents:
-    component = content.split(" = ")
-    routes[component[0]] = int(component[1])
-  sorted_routes = dict(sorted(routes.items(), key=lambda item: item[1]))
-  options = [route.split(" to ") for route in sorted_routes]
+    with open("input.txt", "r") as file:
+        contents = file.read().split("\n")
+    locations = set()
+    routes = {}
+    for content in contents:
+        (source, _, destination, _, distance) = content.split()
+        distance = int(distance)
+        locations.add(source)
+        locations.add(destination)
+        routes.setdefault(source, dict())[destination]= distance
+        routes.setdefault(destination, dict())[source]= distance
 
-  total = []
-  for one in options:
-    for two in one:
-      total.append(two)
-  total = set(total)
+    shortest_dist, longest_dist = float('inf'), float('-inf')
+    shortest_path, longest_path = "", ""
+    for places in permutations(routes):
+        dist = sum(map(lambda x, y: routes[x][y], places, places[1:]))
+        if dist < shortest_dist:
+            shortest_path = map(lambda x, y: f"{x} -> {y}", places, places[1:])
+            shortest_dist = dist
+        if dist > longest_dist:
+            longest_path = map(lambda x, y: f"{x} -> {y}", places, places[1:])
+            longest_dist = dist
+    shortest_path = ' | '.join([str(x) for x in shortest_path])
+    longest_path = ' | '.join([str(x) for x in longest_path])
 
-  final = []
-  destination_count = defaultdict(int)
-  for option in options:
-    repeat = False
-    if final and (destination_count[final[0][0]] == 2 or destination_count[final[0][1]] == 2):
-      for opt in option:
-        if (opt == final[0][0] or opt == final[0][1]) and len(final) != len(total)-1:
-          repeat = True
-      if repeat:
-        continue
-    if destination_count[option[0]] >= 2 or destination_count[option[1]] >= 2:
-      continue
-    destination_count[option[0]] += 1
-    destination_count[option[1]] += 1
-    if option not in final:
-      final.append(option)
-      
-  print(final)
-  total = 0
-  for place in final:
-    flight = " to ".join(place)
-    total += routes[flight]
-  print(total)
+    if shortest_path and longest_path:
+        print(f"The shortest path is {shortest_path} that covers {shortest_dist} miles!\n")
+        print(f"The longest path is {longest_path} that covers {longest_dist} miles!\n")
 
 if __name__ == "__main__":
   main()
