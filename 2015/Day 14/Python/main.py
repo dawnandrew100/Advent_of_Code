@@ -1,5 +1,6 @@
 import re
 from collections import defaultdict
+
 def main():
   with open("input.txt", "r") as file:
     contents = file.readlines()
