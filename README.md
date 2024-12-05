@@ -1,5 +1,7 @@
 # Advent_of_Code
-All of my advent of code solutions (in all the languages that I've attempted them in)
+All prompts and personalized inputs can be found at [Advent of Code](https://adventofcode.com/)
+
+This repo contains all of my advent of code solutions (in all the languages that I've attempted them in)
 
 My goal with this repository is to complete all past (and future) Advent of Code challenges to help me enhance my skills in numerous languages.
 
