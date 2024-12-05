@@ -1,7 +1,7 @@
 import json
 
 def main():
-  with open("input.json", "r") as file:
+  with open("..\\input.json", "r") as file:
     j_content = json.load(file)
     content = json.dumps(j_content)
   print(f"The sum of all of the numbers in the JSON input is {sum_all_json(content)}!\n"

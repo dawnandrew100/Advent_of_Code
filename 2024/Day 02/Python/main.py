@@ -1,9 +1,23 @@
-with open("input.txt") as file:
-  data = file.readlines()
+def main():
+    with open("..\\input.txt") as file:
+      data = file.readlines()
 
-stack_of_reports = []
-for line in data:
-  stack_of_reports.append(list(map(int, line.strip().split(" "))))
+    stack_of_reports = []
+    for line in data:
+      stack_of_reports.append(list(map(int, line.strip().split(" "))))
+
+    part_one = 0
+    for report in stack_of_reports:
+      if is_safe_report(report):
+        part_one += 1
+
+    part_two = 0
+    for report in stack_of_reports:
+      if is_safe_report(report, True):
+        part_two += 1
+
+    print(f"There were initially {part_one} safe reports! "
+          f"After we turned on the 'Problem Dampener', there were {part_two} safe reports!")
 
 def is_safe_report(input: list[int], dampen_active: bool = False, faults: int = 0) -> bool:
   temp_input = input[:] #creates copy of list rather than reference to list
@@ -32,15 +46,5 @@ def is_safe_report(input: list[int], dampen_active: bool = False, faults: int = 
       return False #repeated number or jump of 4 or more
   return True #no problem child elements
 
-part_one = 0
-for report in stack_of_reports:
-  if is_safe_report(report):
-    part_one += 1
-
-part_two = 0
-for report in stack_of_reports:
-  if is_safe_report(report, True):
-    part_two += 1
-
-print(f"There were initially {part_one} safe reports! "
-      f"After we turned on the 'Problem Dampener', there were {part_two} safe reports!")
+if __name__ == "__main__":
+    main()

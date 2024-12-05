@@ -1,5 +1,5 @@
 def main():
-  with open("input.txt", "r") as file:
+  with open("..\\input.txt", "r") as file:
     contents = file.readlines()
 
   ingredients = {}
@@ -31,7 +31,7 @@ def main():
         if total_score == best_score:
           best_amount = f"{i} teaspoons of Frosting, {j} teaspoons of Candy, {k} teaspoons of Butterscotch, {h} teaspoons of Sugar"
 
-  print(best_score)
+  print(f"The best score is {best_score} which can be obtained with the followings amounts: ")
   print(best_amount)
 
 if __name__ == "__main__":

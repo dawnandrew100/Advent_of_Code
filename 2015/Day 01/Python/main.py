@@ -1,11 +1,11 @@
 def main():
-  with open("input.txt", "r") as file:
+  with open("..\\input.txt", "r") as file:
     input = file.read()
 
   basement, floor = floor_finder(input)
   print(f"Final floor: {floor}\nFirst basement position: {basement[0]}")
 
-def floor_finder(contents: str) -> tuple[int, int]:
+def floor_finder(contents: str) -> tuple[list[int], int]:
   floor = 0
   position = 0
   basement = []

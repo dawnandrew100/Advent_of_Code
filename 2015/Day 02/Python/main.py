@@ -1,6 +1,6 @@
 def main():
   gifts: list[list[str]] = []
-  with open("input.txt", "r") as file:
+  with open("..\\input.txt", "r") as file:
     for line in file:
       gifts.append(line.strip().split("x"))
 

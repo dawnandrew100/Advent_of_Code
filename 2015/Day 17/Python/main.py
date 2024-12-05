@@ -1,7 +1,7 @@
 from itertools import combinations
 
 def main():
-  with open("input.txt", "r") as file:
+  with open("..\\input.txt", "r") as file:
     contents = file.readlines()
   contents = [int(line.strip()) for line in contents]
 

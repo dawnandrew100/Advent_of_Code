@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 def main():
-  with open("input.txt", "r") as file:
+  with open("..\\input.txt", "r") as file:
     contents = file.readline()
   print(f"Santa single-handedly delievered presents to {solo_santa(contents)} houses.")
   print(f"Santa with the help of Robo-Santa delievered presents to {robo_santa_plus(contents)} houses.")

@@ -2,7 +2,7 @@ import numpy as np
 from numba import njit
 
 def main():
-  with open("input.txt", "r") as file:
+  with open("..\\input.txt", "r") as file:
     contents = file.readlines()
   light_array, temporary_array = convert_to_binary_array(contents)
   new_light_array = animate_lights(light_array, temporary_array, 100)

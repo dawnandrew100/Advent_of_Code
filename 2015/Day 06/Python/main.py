@@ -4,7 +4,7 @@ import numpy.typing as npt
 from numba import njit
 
 def main():
-  with open("input.txt", "r") as file:
+  with open("..\\input.txt", "r") as file:
     contents = file.read().split("\n")
 
   christmas_display = np.zeros((1000,1000))

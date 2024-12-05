@@ -1,7 +1,7 @@
 from random import shuffle
 
 def main():
-  with open("input.txt", "r") as file:
+  with open("..\\input.txt", "r") as file:
     contents = file.readlines()
   substitution_dict = {}
   inverse_substitution_dict = {}

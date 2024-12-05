@@ -1,7 +1,7 @@
 from itertools import permutations
 
 def main():
-    with open("input.txt", "r") as file:
+    with open("..\\input.txt", "r") as file:
         contents = file.read().split("\n")
     locations = set()
     routes = {}

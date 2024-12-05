@@ -2,7 +2,7 @@ from collections import defaultdict
 import re
 
 def main():
-  with open("input.txt", "r") as file:
+  with open("..\\input.txt", "r") as file:
     contents = file.read().split('\n')
   print(f"There are {nice_part_one(contents)} nice words matching part one's rule set!")
   print(f"There are {nice_part_two(contents)} nice words matching part two's rule set!")

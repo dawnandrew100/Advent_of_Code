@@ -1,5 +1,5 @@
 def main():
-  with open("input.txt", "r") as file:
+  with open("..\\input.txt", "r") as file:
     contents = file.read().split("\n")
   solution_1 = sum([len(content)-len(eval(content)) for content in contents])
   solution_2 = 0
