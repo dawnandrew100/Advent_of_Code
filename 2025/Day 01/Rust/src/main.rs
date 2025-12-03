@@ -48,9 +48,9 @@ fn main() -> std::io::Result<()> {
         dial_passes_zero += zero_passes;
         if dial_position == 0 {
             dial_ends_at_zero += 1;
+            dial_passes_zero += 1;
         }
     }
-    dial_passes_zero += dial_ends_at_zero;
 
     println!("Original Password: {dial_ends_at_zero}");
     println!("Password method 0x434C49434B: {dial_passes_zero}");
@@ -76,28 +76,24 @@ fn turn_dial(start_pos: i32, direction: Direction, amount: i32) -> (i32, i32) {
     match direction {
         Direction::Left => {
             curr_pos -= amount;
-            times_passes_zero = (curr_pos / 100).abs(); //integer division
             if curr_pos < 0 {
-                // zero passes are double counted without this check
-                if start_pos != 0 {
-                    times_passes_zero += 1;
-                }
-                if (100 + curr_pos) % 100 == 0 {
+                times_passes_zero = curr_pos.div_euclid(100).abs(); //integer division
+                curr_pos = 100 - curr_pos.abs();
+                if start_pos == 0 {
                     times_passes_zero -= 1;
                 }
-                curr_pos = 100 - curr_pos.abs();
             }
-            (curr_pos % 100, times_passes_zero)
+            (curr_pos.rem_euclid(100), times_passes_zero)
         }
         Direction::Right => {
             curr_pos += amount;
-            if curr_pos >= 100 {
+            if curr_pos > 100 {
                 times_passes_zero = curr_pos / 100; //integer division
-                if curr_pos % 100 == 0 || start_pos == 0 {
+                if curr_pos.rem_euclid(100) == 0 {
                     times_passes_zero -= 1;
                 }
             }
-            (curr_pos % 100, times_passes_zero)
+            (curr_pos.rem_euclid(100), times_passes_zero)
         }
     }
 }
