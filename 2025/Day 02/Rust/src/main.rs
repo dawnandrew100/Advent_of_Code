@@ -29,20 +29,25 @@ fn main() -> std::io::Result<()> {
 
     let mut invalid_nums: Vec<usize> = Vec::new();
     for (start, end) in &ranges {
-        // Invalid numbers are numbers that are repeated exactly
-        // For example: 55 is a repeated 5 and 113113 is a repeated 113
-        // Numbers with an odd length cannot be perfectly repeated and can therefore be ignored
-        // This won't be true for part 2
-        // SO REMEMBER TO MODIFY THIS LINE
-        if start.len() == end.len() && !start.len().is_multiple_of(2) {
-            continue;
-        }
         let curr = start.parse::<usize>().unwrap_or(0);
         let upper_lim = end.parse::<usize>().unwrap_or(0);
+        // No need to check part 1 invalid nums if the start and end are odd numbered lengths
+        if start.len() == end.len() && !start.len().is_multiple_of(2) {
+            for num in curr..=upper_lim {
+                if is_invalid_num_2(num) {
+                    invalid_nums.push(num);
+                }
+            }
+            continue;
+        }
         // There's probably a clever way to skip a bunch of numbers
         // but I'm feeling kind of brute forcey right now
         for num in curr..=upper_lim {
             if is_invalid_num(num) {
+                invalid_nums.push(num);
+                continue; // pt 1 invalid number is by default a pt 2 invalid numbers
+            }
+            if is_invalid_num_2(num) {
                 invalid_nums.push(num);
             }
         }
@@ -76,6 +81,30 @@ fn is_invalid_num(num: usize) -> bool {
     let last_half: String = num_str.iter().skip(half).collect();
     if first_half == last_half {
         return true;
+    }
+    false
+}
+
+fn is_invalid_num_2(num: usize) -> bool {
+    let num_str: Vec<char> = num.to_string().chars().collect();
+    let total_length = num_str.len();
+    let half = total_length / 2;
+    for pattern_length in 1..=half {
+        let pattern: String = num_str.iter().take(pattern_length).collect();
+        if total_length % pattern_length != 0 {
+            continue; // if the pattern doesn't cleanly divide, it's not an invalid number
+        }
+        let mut is_match = true;
+        for i in (pattern_length..total_length).step_by(pattern_length) {
+            let comparison: String = num_str[i..i + pattern_length].iter().collect();
+            if pattern != comparison {
+                is_match = false;
+                break;
+            }
+        }
+        if is_match == true {
+            return true;
+        }
     }
     false
 }
